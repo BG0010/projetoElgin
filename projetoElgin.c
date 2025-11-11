@@ -124,6 +124,7 @@
 	    printf("Tipo padrao [1]: ");
     	canf("%d", &g_tipo);
     
+
     	printf("Modelo (I9): ");
     	scanf("%s", g_modelo);
 	    
@@ -139,6 +140,19 @@
 	static void abrirConexao(void)
 	{
 	    // TODO: chamar AbreConexaoImpressora e validar retorno
+	    
+	    if (g_conectada) {
+	    	printf("Está conectada!\n");
+		}
+		
+		int ret = AbreConexaoImpressora(g_tipo, g_modelo, g_conexao, g_parametro);
+		
+		if (ret == 0) {
+			printf("Conexao Aberta!\n");
+			g_conectada = 1;
+		} else {
+			printf("Erro ao abrir conexao\n");
+		}
 	}
 	
 	static void fecharConexao(void)
@@ -211,6 +225,7 @@
 	    while (1) {
 	        
 	        //construir o menu e chamar as funçoes aqui!!!
+	        
 	        
 	                
 	        
