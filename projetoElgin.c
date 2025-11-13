@@ -243,21 +243,39 @@
 	}
 	
 	/* ======================= Função principal ======================= */
-	int main(void) {
-		
-	    if (!carregarFuncoes()) {
-	        return 1;
-	    }
-	
-	    int opcao = 0;
-	    while (1) {
-	        
-	        //construir o menu e chamar as funçoes aqui!!!
-	        
-			
-	        
-	        
-	                
-	        
-	    }
-	}
+	int main(void)
+{
+    if (!carregarFuncoes())
+        return 1;
+
+    int opcao;
+
+    while (1)
+    {
+        exibirMenu();
+        scanf("%d", &opcao);
+        flush_entrada();
+
+        switch (opcao)
+        {
+        case 1: configurarConexao(); break;
+        case 2: abrirConexao(); break;
+        case 3: imprimirTexto(); break;
+        case 4: imprimirQRCode(); break;
+        case 5: imprimirCodigoBarras(); break;
+        case 6: imprimirXMLSAT(); break;
+        case 7: imprimirXMLCancelamentoSAT(); break;
+        case 8: abrirGavetaElginOpc(); break;
+        case 9: abrirGavetaOpc(); break;
+        case 10: emitirSinalSonoro(); break;
+        case 0:
+            fecharConexao();
+            printf("Saindo...\n");
+            return 0;
+        default:
+            printf("Opção inválida!\n");
+        }
+    }
+
+    return 0;
+}
