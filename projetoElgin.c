@@ -158,18 +158,46 @@
 	static void fecharConexao(void)
 	{
 	    // TODO: chamar FechaConexaoImpressora e tratar retorno
+		if (!g_conectada) { //Se não estiver conectado, mostre a mensagem
+			printf("Nenhuma conexao para fechar!\n");
+		}
+
+		//Caso tiver um conexão, chame a função "FecharConexão"
+		FechaConexaoImpressora();
+		g_conectada = 0;
+
+		printf("Conexao encerrada. \n");
 	}
 	
 	static void imprimirTexto(void)
 	{
 	    // TODO: solicitar texto do usuário e chamar ImpressaoTexto
 	    // incluir AvancaPapel e Corte no final
+
+		char texto[256];
+		fgets(texto, sizeof(texto), stdin);
+
+		ImpressaoTexto(texto, 0, 0, 0);
+		AvancaPapel(5);
+		Corte(0);
+
+		printf("Texto impresso!\n");
 	}
 	
 	static void imprimirQRCode(void)
 	{
 	    // TODO: solicitar conteúdo do QRCode e chamar ImpressaoQRCode(texto, 6, 4)
 	    // incluir AvancaPapel e Corte no final
+		char texto[256];
+
+		printf("Conteúdo do QRCODE: ");
+		fgets(texto, sizeof(texto), stdin);
+
+		ImpressaoQRCODE(texto, 6, 4);
+		AvancaPapel(5);
+		Corte(0);
+
+		printf("QRCode impresso!\n");
 	}
 	
 	static void imprimirCodigoBarras(void)
