@@ -122,7 +122,7 @@
 	{
 	    // TODO: pedir ao usuário tipo, modelo, conexão e parâmetro
 	    printf("Tipo padrao [1]: ");
-    	canf("%d", &g_tipo);
+    	scanf("%d", &g_tipo);
     
 
     	printf("Modelo (I9): ");
@@ -193,7 +193,7 @@
 		printf("Conteúdo do QRCODE: ");
 		fgets(texto, sizeof(texto), stdin);
 
-		ImpressaoQRCODE(texto, 6, 4);
+		ImpressaoQRCode(texto, 6, 4);
 		AvancaPapel(5);
 		Corte(0);
 
@@ -243,8 +243,8 @@
 	}
 	
 	/* ======================= Função principal ======================= */
-	int main(void)
-	{
+	int main(void) {
+		
 	    if (!carregarFuncoes()) {
 	        return 1;
 	    }
@@ -253,6 +253,8 @@
 	    while (1) {
 	        
 	        //construir o menu e chamar as funçoes aqui!!!
+	        
+			
 	        
 	        
 	                
