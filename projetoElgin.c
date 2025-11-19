@@ -204,6 +204,11 @@
 	{
 	    // TODO: usar ImpressaoCodigoBarras(8, "{A012345678912", 100, 2, 3)
 	    // incluir AvancaPapel e Corte no final
+	    ImpressaoCodigoBarras(8, "{A012345678912", 100, 2, 3);
+    	AvancaPapel(5);
+    	Corte(0);
+
+    	printf("Código de barras impresso!\n");
 	}
 	
 	static void imprimirXMLSAT(void)
