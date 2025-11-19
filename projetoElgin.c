@@ -210,6 +210,33 @@
 	{
 	    // TODO: ler o arquivo ./XMLSAT.xml e enviar via ImprimeXMLSAT
 	    // incluir AvancaPapel e Corte no final
+	     FILE *f = fopen("./XMLSAT.xml", "rb");
+    if (!f) {
+        printf("Erro: não foi possível abrir o arquivo XMLSAT.xml\n");
+        return;
+    }
+
+    fseek(f, 0, SEEK_END);
+    long tamanho = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char *buffer = (char *)malloc(tamanho + 1);
+    fread(buffer, 1, tamanho, f);
+    buffer[tamanho] = '\0';
+    fclose(f);
+
+    int ret = ImprimeXMLSAT(buffer, 0);
+    free(buffer);
+
+    if (ret != 0) {
+        printf("Erro ao imprimir XML SAT (código %d)\n", ret);
+        return;
+    }
+
+    AvancaPapel(5);
+    Corte(0);
+
+    printf("XML SAT impresso!\n");
 	}
 	
 	static void imprimirXMLCancelamentoSAT(void)
@@ -225,21 +252,63 @@
 	        "p0ccqnZvuE70aHOI09elpjEO6Cd+orI7XHHrFCwhFhAcbalc+ZfO5b/+vkyAHS6C"
 	        "YVFCDtYR9Hi5qgdk31v23w==";
 	        */
+	        
+	        FILE *f = fopen("./CANC_SAT.xml", "rb");
+    if (!f) {
+        printf("Erro: não foi possível abrir o arquivo CANC_SAT.xml\n");
+        return;
+    }
+
+    fseek(f, 0, SEEK_END);
+    long tamanho = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char *buffer = (char *)malloc(tamanho + 1);
+    fread(buffer, 1, tamanho, f);
+    buffer[tamanho] = '\0';
+    fclose(f);
+
+    const char *assinatura =
+        "Q5DLkpdRijIRGY6YSSNsTWK1TztHL1vD0V1Jc4spo/CEUqICEb9SFy82ym8EhBRZ"
+        "jbh3btsZhF+sjHqEMR159i4agru9x6KsepK/q0E2e5xlU5cv3m1woYfgHyOkWDNc"
+        "SdMsS6bBh2Bpq6s89yJ9Q6qh/J8YHi306ce9Tqb/drKvN2XdE5noRSS32TAWuaQE"
+        "Vd7u+TrvXlOQsE3fHR1D5f1saUwQLPSdIv01NF6Ny7jZwjCwv1uNDgGZONJdlTJ6"
+        "p0ccqnZvuE70aHOI09elpjEO6Cd+orI7XHHrFCwhFhAcbalc+ZfO5b/+vkyAHS6C"
+        "YVFCDtYR9Hi5qgdk31v23w==";
+
+    int ret = ImprimeXMLCancelamentoSAT(buffer, assinatura, 0);
+    free(buffer);
+
+    if (ret != 0) {
+        printf("Erro ao imprimir XML de Cancelamento SAT (código %d)\n", ret);
+        return;
+    }
+
+    AvancaPapel(5);
+    Corte(0);
+
+    printf("XML de Cancelamento SAT impresso!\n");
 	}
 	
 	static void abrirGavetaElginOpc(void)
 	{
 	    // TODO: chamar AbreGavetaElgin(1, 50, 50)
+	    AbreGavetaElgin(1, 50, 50);
+    	printf("Gaveta Elgin aberta!\n");
 	}
 	
 	static void abrirGavetaOpc(void)
 	{
 	    // TODO: chamar AbreGaveta(1, 5, 10)
+	    AbreGaveta(1, 5, 10);
+    	printf("Gaveta aberta!\n");
 	}
 	
 	static void emitirSinalSonoro(void)
 	{
 	    // TODO: chamar SinalSonoro(4, 50, 5)
+	    SinalSonoro(4, 50, 5);
+    	printf("Sinal sonoro enviado!\n");
 	}
 	
 	/* ======================= Função principal ======================= */
