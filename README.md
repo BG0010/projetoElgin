@@ -1,7 +1,5 @@
-<!-- configurarConexão -->
-int tipo, parametro;
-char conexao[4];
-char modelo[4];
-printf("Digite o tipo de conexão :\n");
-scanf("%d", &tipo);
-
+Camila Santos;
+Gabriel Silva;
+Guilherme Pereira;
+Vinicius Alves;
+Vinícius Borges.
