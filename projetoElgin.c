@@ -114,6 +114,7 @@
 	    printf("[7] - Imprimir XML Canc SAT\n");
 	    printf("[8] - Abrir Gaveta Elgin\n");
 	    printf("[9] - Abrir Gaveta\n");
+	    printf("[10] - Emitir Som\n");
 	    printf("[0] - Fechar Conexao e Sair\n");
 	    printf("Opcao: ");
 	} 
@@ -173,8 +174,16 @@
 	{
 	    // TODO: solicitar texto do usuário e chamar ImpressaoTexto
 	    // incluir AvancaPapel e Corte no final
-
+		
 		char texto[256];
+		int ret = ImpressaoTexto(texto, 0, 0, 0);
+		
+		if (ret != 0) {
+			printf("Erro ao gerar codigo de barras.", ret);
+			return;
+		}
+		
+		printf("Conteudo do texto:\n");
 		fgets(texto, sizeof(texto), stdin);
 
 		ImpressaoTexto(texto, 0, 0, 0);
@@ -189,8 +198,14 @@
 	    // TODO: solicitar conteúdo do QRCode e chamar ImpressaoQRCode(texto, 6, 4)
 	    // incluir AvancaPapel e Corte no final
 		char texto[256];
+		int ret = ImpressaoQRCode(texto, 6, 4);
+		
+		if (ret != 0) {
+			printf("Erro ao gerar codigo de barras.", ret);
+			return;
+		}
 
-		printf("Conteúdo do QRCODE: ");
+		printf("Conteudo do QRCODE: ");
 		fgets(texto, sizeof(texto), stdin);
 
 		ImpressaoQRCode(texto, 6, 4);
@@ -204,11 +219,19 @@
 	{
 	    // TODO: usar ImpressaoCodigoBarras(8, "{A012345678912", 100, 2, 3)
 	    // incluir AvancaPapel e Corte no final
+	    int ret = ImpressaoCodigoBarras(8, "{A012345678912", 100, 2, 3);
+		
+		if (ret != 0) {
+			printf("Erro ao gerar codigo de barras.", ret);
+			return;
+		}
+	 
 	    ImpressaoCodigoBarras(8, "{A012345678912", 100, 2, 3);
     	AvancaPapel(5);
     	Corte(0);
+    	
 
-    	printf("Código de barras impresso!\n");
+    	printf("Codigo de barras impresso!\n");
 	}
 	
 	static void imprimirXMLSAT(void)
@@ -260,7 +283,7 @@
 	        
 	        FILE *f = fopen("./CANC_SAT.xml", "rb");
     if (!f) {
-        printf("Erro: não foi possível abrir o arquivo CANC_SAT.xml\n");
+        printf("Erro: nao foi possivel abrir o arquivo CANC_SAT.xml\n");
         return;
     }
 
@@ -285,7 +308,7 @@
     free(buffer);
 
     if (ret != 0) {
-        printf("Erro ao imprimir XML de Cancelamento SAT (código %d)\n", ret);
+        printf("Erro ao imprimir XML de Cancelamento SAT (codigo %d)\n", ret);
         return;
     }
 
@@ -297,6 +320,12 @@
 	
 	static void abrirGavetaElginOpc(void)
 	{
+		int ret = AbreGavetaElgin(1, 50, 50);
+		
+		if (ret != 0) {
+			printf("Erro ao abrir gaveta", ret);
+			return;
+		}
 	    // TODO: chamar AbreGavetaElgin(1, 50, 50)
 	    AbreGavetaElgin(1, 50, 50);
     	printf("Gaveta Elgin aberta!\n");
@@ -304,6 +333,13 @@
 	
 	static void abrirGavetaOpc(void)
 	{
+		
+		int ret = AbreGavetaElgin(1, 50, 50);
+		
+		if (ret != 0) {
+			printf("Erro ao abrir gavetaOPV", ret);
+			return;
+		}
 	    // TODO: chamar AbreGaveta(1, 5, 10)
 	    AbreGaveta(1, 5, 10);
     	printf("Gaveta aberta!\n");
