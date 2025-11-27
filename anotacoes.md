@@ -6,6 +6,47 @@
 ### *(Impressora C)*
 
 ---
+## Passo a passo de como usar
+Baixe o projeto
+
+Entre no link do GitHub.
+
+Clique em Code → Download ZIP.
+
+Extraia a pasta em algum lugar do seu PC.
+
+Abra o Dev-C++
+
+Vá em File → New → Project.
+
+Escolha Empty Project.
+
+Marque C++ Project.
+
+Dê um nome e salve.
+
+Adicione os arquivos do projeto
+
+No Dev-C++, clique Project → Add to Project.
+
+Vá até a pasta que você extraiu.
+
+Adicione o arquivo .c do projeto (ex: projeto.c ou main.c).
+
+Coloque as DLL na pasta do programa
+
+Pegue as DLLs do GitHub (ex: E1_Impressora01.dll).
+
+Copie para a mesma pasta onde o Dev-C++ cria o .exe
+(geralmente PastaDoProjeto\Debug).
+
+Compile
+
+Clique em Execute → Compile.
+
+Execute
+
+Clique em Execute → Run.
 
 ## 📘 Sobre o Projeto
 
@@ -260,4 +301,5 @@ SinalSonoro(4, 50, 5);
 *Vinicius Borges.
 
 ---
+
 
