@@ -1,38 +1,78 @@
-## exibirMenu() — Exibição do Menu Principal
+
+---
+
+# 🖨️ Integração C com Impressora Elgin i9
+
+### *(Impressora C)*
+
+---
+
+## 📘 Sobre o Projeto
+
+Trabalho em grupo para o desenvolvimento e integração com a Impressora Elgin.
+
+---
+
+## 🧰 Tecnologias Utilizadas
+
+* 	#include <stdio.h>
+*	#include <stdlib.h>
+*	#include <string.h>
+*	#include <windows.h>
+
+---
+
+## 🧪 Testes
+
+* Teste de conexão com a impressora
+* Impressão de texto simples
+* Envio de comandos **ESC/POS**
+* Verificação das portas de comunicação
+* Teste com várias mensagens
+
+---
+
+# 📖 Documentação das Funções Implementadas
+
+*(baseada na especificação original do projeto em C)*
+
+---
+
+## ## exibirMenu() — Exibição do Menu Principal
 
 Exibe todas as opções disponíveis para o usuário.
 
 ### O que faz:
 
--> Imprime um menu textual no terminal.
--> Mostra todas as ações possíveis que o usuário pode executar (configurar, abrir conexão, imprimir, etc.).
--> Solicita que o usuário digite uma opção.
+* Imprime um menu textual no terminal.
+* Mostra todas as ações possíveis que o usuário pode executar (configurar, abrir conexão, imprimir, etc.).
+* Solicita que o usuário digite uma opção.
 
 ### Detalhes importantes:
 
--> É chamada dentro do loop principal do `main()`.
--> Não realiza nenhuma validação — apenas mostra o menu.
--> Simplesmente organiza a interface do usuário.
+* É chamada dentro do loop principal do `main()`.
+* Não realiza nenhuma validação — apenas mostra o menu.
+* Organiza a interface do usuário.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
-## configurarConexao() — Configuração dos Parâmetros de Conexão
+## ## configurarConexao() — Configuração dos Parâmetros de Conexão
 
 Permite que o usuário possa modificar manualmente os dados usados para conectar à impressora.
 
 ### O que lê e configura:
 
--> `g_tipo` <-> Tipo de comunicação (USB, Serial, Ethernet).
--> `g_modelo` <-> Modelo da impressora (ex.: i9).
--> `g_conexao` <-> Nome/porta do tipo de conexão.
--> `g_parametro` <-> Parâmetro numérico extra requerido por certos modelos. (ex. Elgin L42 Pro / L42 DT)
+* `g_tipo` → Tipo de comunicação (USB, Serial, Ethernet).
+* `g_modelo` → Modelo da impressora (ex.: i9).
+* `g_conexao` → Nome/porta do tipo de conexão.
+* `g_parametro` → Parâmetro numérico extra.
 
 ### Detalhes importantes:
 
--> Essas variáveis são globais e usadas diretamente na função `abrirConexao()`.
--> Não valida se os dados são válidos — assume que o usuário sabe o que digita.
+* Variáveis globais usadas posteriormente em `abrirConexao()`.
+* Não valida se os dados são válidos.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
 ## abrirConexao() — Conectar à Impressora
 
@@ -40,143 +80,121 @@ Realiza a tentativa de conexão com a impressora carregada pela DLL.
 
 ### Funcionamento:
 
-1. Verifica se a variável global `g_conectada` já está ativa.
-2. Caso não esteja conectada, chama:
+1. Verifica se `g_conectada` já está ativa.
+2. Caso não esteja, executa:
 
    ```
    AbreConexaoImpressora(g_tipo, g_modelo, g_conexao, g_parametro);
    ```
-3. Se o retorno for 0, a conexão foi bem-sucedida.
-4. Marca `g_conectada = 1`.
+3. Se o retorno for 0 → Conexão bem-sucedida.
+4. Atualiza `g_conectada = 1`.
 
 ### Detalhes importantes:
 
--> `AbreConexaoImpressora` é uma função carregada dinamicamente via DLL.
--> A função é crítica — sem ela, nenhuma impressão é possível.
--> Caso a conexão falhe, não encerra o programa — apenas avisa o usuário.
+* Sem conexão, nenhuma impressão pode ser feita.
+* Em falha, apenas informa ao usuário.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
 ## fecharConexao() — Encerrar Conexão com a Impressora
 
-Fecha a conexão ativa com a impressora.
-
 ### Funcionamento:
 
-1. Verifica se `g_conectada` é 0 (não conectada).
+1. Verifica se `g_conectada` == 0.
 2. Caso conectada, chama `FechaConexaoImpressora()`.
-3. Atualiza `g_conectada = 0`.
+3. Define `g_conectada = 0`.
 4. Exibe mensagem de finalização.
 
 ### Detalhes importantes:
 
--> Mesmo se a impressora estiver desconectada fisicamente, a função apenas chama a DLL.
--> Evita erros de "dupla desconexão".
+* Evita erros de desconexão dupla.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
 ## imprimirTexto() — Impressão de Texto
 
-Realiza a impressão de um texto digitado pelo usuário.
-
 ### Funcionamento:
 
-1. Lê uma linha de texto usando `fgets`.
-2. Envia esse texto para:
+1. Lê texto com `fgets`.
+2. Envia para:
 
    ```
    ImpressaoTexto(texto, 0, 0, 0);
    ```
-   -> Alinhamento: 0 (esquerda)
-   -> Negrito: 0
-   -> Expansão: 0
-3. Avança o papel (`AvancaPapel(5)`).
-4. Executa o corte (`Corte(0)`).
+3. Avança papel.
+4. Executa o corte.
 
 ### Detalhes importantes:
 
--> Exige que a conexão já esteja aberta.
--> Usa configuração mínima da API — simplificado para estudantes.
--> Avança o papel antes de cortar para evitar corte sobre o texto.
+* Exige conexão ativa.
+* Avança antes de cortar para não danificar o conteúdo.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
 ## imprimirQRCode() — Impressão de QRCode
 
-Imprime um QRCode baseado no conteúdo digitado.
-
 ### Funcionamento:
 
-1. Solicita o texto que será convertido em QRCode.
-2. Chama:
+1. Solicita o conteúdo.
+2. Executa:
 
    ```
    ImpressaoQRCode(texto, 6, 4);
    ```
-   -> 6 = tamanho do QRCode
-   -> 4 = nível de correção de erro
-3. Avança papel.
-4. Corta.
+3. Avança e corta.
 
 ### Detalhes importantes:
 
--> QRCode exige que o conteúdo não seja vazio.
--> Impressoras Elgin têm limitações de tamanho e formato, por isso os parâmetros fixos.
+* Conteúdo não pode ser vazio.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
-## imprimirCodigoBarras() — Código de Barras
-
-Imprime um código de barras padrão, modelo Code128.
+## imprimirCodigoBarras() — Código de Barras Code128
 
 ### Funcionamento:
 
--> Usa valores fixos para demonstrar a função.
--> Código enviado:
+Código fixo utilizado:
 
-  ```
-  "{A012345678912}"
-  ```
-  -> 8 → Tipo Code128 (código de barras linear, geralmente ler o preço do produto)
-  -> Altura = 100
-  -> Largura = 2
-  -> Fonte = 3
+```
+"{A012345678912}"
+```
 
-Após isso, avança o papel e corta.
+Configuração:
 
------------------------------------------------------------------------------------------------------------------------------
+* Tipo: 8 (Code128)
+* Altura: 100
+* Largura: 2
+* Fonte: 3
 
-## imprimirXMLSAT() — Impressão do XML SAT (Venda)
+Após isso, avança e corta.
 
-Imprime um arquivo `.xml` contendo informações fiscais.
+---
+
+## imprimirXMLSAT() — Impressão do XML SAT
 
 ### Funcionamento:
 
 1. Abre `XMLSAT.xml`.
-2. Lê todo o arquivo para um buffer. (armazenamento temporário)
-3. Chama a função da DLL:
+2. Lê o conteúdo para um buffer.
+3. Chama:
 
    ```
    ImprimeXMLSAT(buffer, 0);
    ```
-4. Avança papel e corta.
+4. Avança e corta.
 
 ### Detalhes importantes:
 
--> O arquivo precisa existir.
--> O XML é impresso formatado segundo a lógica da DLL.
+* O arquivo deve existir.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
 ## imprimirXMLCancelamentoSAT() — Impressão do XML de Cancelamento
-
--> O XML de cancelamento
--> Uma assinatura digital fixa
 
 ### Funcionamento:
 
 1. Lê `CANC_SAT.xml`.
-2. Carrega uma string contendo a assinatura.
+2. Carrega assinatura digital.
 3. Chama:
 
    ```
@@ -186,77 +204,60 @@ Imprime um arquivo `.xml` contendo informações fiscais.
 
 ### Detalhes importantes:
 
--> A assinatura é obrigatória para impressão de cancelamento.
--> O arquivo deve estar no mesmo diretório do projeto.
+* A assinatura é obrigatória.
 
------------------------------------------------------------------------------------------------------------------------------
+---
 
-## abrirGavetaElginOpc() — Abrir Gaveta 
-
-Aciona a gaveta da impressora
-
-### Funcionamento:
+## abrirGavetaElginOpc() — Abrir Gaveta Elgin
 
 Chama:
 
 ```
 AbreGavetaElgin(1, 50, 50);
 ```
--> 1 → Habilitado
--> 50 ms pulso ON
--> 50 ms pulso OFF
 
-### Detalhes importantes:
-
--> Só funciona se a impressora tiver porta de gaveta.
-
------------------------------------------------------------------------------------------------------------------------------
+---
 
 ## abrirGavetaOpc() — Abrir Gaveta Genérica
 
-Parecido com anterior, mas usando outra função.
-
-### Chamado:
+Chama:
 
 ```
 AbreGaveta(1, 5, 10);
 ```
 
--> Tempo menor de pulso
--> Compatível com outros modelos
+---
 
------------------------------------------------------------------------------------------------------------------------------
+## emitirSinalSonoro()
 
-## emitirSinalSonoro() — 
-
-Emite um som através do buzzer da impressora.
-
-### Chamado:
+Chama:
 
 ```
 SinalSonoro(4, 50, 5);
 ```
 
--> 4 → quantidade de bipes
--> 50 → duração
--> 5 → intervalo
+---
 
------------------------------------------------------------------------------------------------------------------------------
-
-##  main() — Fluxo Principal do Programa
-
-Controla todo os void's.
+## main() — Fluxo Principal
 
 ### Lógica:
 
 1. Carrega a DLL.
-2. Entra em loop infinito.
+2. Entra no loop principal.
 3. Exibe o menu.
-4. Lê opção do usuário.
-5. Chama a função correspondente.
-6. Sai apenas quando o usuário escolhe "0".
+4. Lê a opção.
+5. Executa a função correspondente.
+6. Encerra somente ao selecionar “0”.
 
-### Importante:
+---
 
-* Centraliza toda a execução do programa.
-* Se a DLL não carregar, o programa termina imediatamente.
+# 👥 Autores
+
+*Camila Santos;
+*Gabriel Alves;
+*Guilherme Pereira;
+*Vinicius Alves;
+*Vinicius Borges.
+
+---
+
